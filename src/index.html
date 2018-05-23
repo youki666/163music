@@ -3,118 +3,41 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="Access-Control-Allow-Origin" content="*" />
 	<title>管理页面</title>
-	<style>
-         #container {
-         	width: 200px;
-         	display: flex;
-         	justify-content: center;
-         	align-items: center;
-         	border-radius: 20px;
-         	padding: 50px 80px;
-         	border: 2px dashed #ddd;
-         }
-</style>
+	<link rel="stylesheet" href="./css/default.css">
 </head>
 <body>
-	 <div id="container">
-        <button id='btn'>点击或拖拽文件</button>
-	 </div>
-         <div id="upload"></div>
-	 <audio  controls src="http://p8vjw97s6.bkt.clouddn.com/%E9%99%88%E5%86%A0%E5%AE%87%20-%20%E5%AF%B9%E4%B8%8D%E8%B5%B7,%E6%88%91%E7%88%B1%E4%BD%A0.mp3"></audio>
+	  <div class="page">
+          <aside>
+                <div class="newSong">
+                     
+                </div>
+	            <div class="songList-container">
+                 
+              </div>
+	            <div class="uploadArea">
+                   <div id="uploadContainer" class="draggable">
+                        <div id="uploadButton" class="clickable">
+                             <p>点击或拖拽文件</p>
+                             <p>文件大小建议不要超过40M</p>
+                             <p id='upload'></p>
+                        </div>
+                   </div>
+	            </div>
+          </aside>
+          <main> 
+
+          </main>
+	   </div>
 	<script src='../script/moxie.min.js'></script>
 	<script src='../node_modules/plupload/js/plupload.min.js'></script>
-	<script src='../node_modules/qiniu-js/dist/qiniu.min.js'></script>
-<!-- 	<script>
-          var APP_ID = 'JwymzW15KwGtonwB8ezmdPr8-gzGzoHsz';
-          var APP_KEY = 'L7u1snrpSMRzze0o9BhTLM9D';
-
-          AV.init({
-            appId: APP_ID,
-            appKey: APP_KEY
-          });
-          
-          //创建数据库
-          var TestObject = AV.Object.extend('Playlist');
-           //创建一条记录
-          var testObject = new TestObject();
-           testObject.save({  //保存数据
-           	cover: 'cover',
-           	name: 'test',
-           	creator_id: 'test',
-           	description: 'test',
-           	songs: ['1','2'],
-             /*name: 'test',
-             singer: 'Hello World!',
-             url: 'Hello World!'*/
-           }).then(function(object) {
-             console.log('LeanCloud Rocks!');
-           })
-</script> -->
-	<script>
-          //引入Plupload 、qiniu.js后
-                        var uploader = Qiniu.uploader({
-                            runtimes: 'html5',    //上传模式,依次退化
-                            browse_button: 'btn',       //上传选择的点选按钮，**必需**
-                            uptoken_url: 'http://localhost:8888/uptoken',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
-                            //uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
-                            // unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
-                            // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
-                            domain: 'http://qiniu-plupload.qiniudn.com/',   //bucket 域名，下载资源时用到，**必需**
-                            //p8vjw97s6.bkt.clouddn.com
-                            get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
-                            container: 'container',           //上传区域DOM ID，默认是browser_button的父元素，
-                            max_file_size: '100mb',           //最大文件体积限制
-                            dragdrop: true,                   //开启可拖曳上传
-                            drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
-                            chunk_size: '40mb',                //分块上传时，每片的体积
-                            auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
-                            init: {
-                                'FilesAdded': function(up, files) {
-                                    plupload.each(files, function(file) {
-                                        // 文件添加进队列后,处理相关的事情
-                                    });
-                                },
-                                'BeforeUpload': function(up, file) {
-                                       alert('你好！')
-                                },
-                                'UploadProgress': function(up, file) {
-                                       upload.textContent = '文件上传ing'
-                                },
-                                'FileUploaded': function(up, file, info) {
-                                	upload.textContent = '文件上传结束'
-                                       // 每个文件上传成功后,处理相关的事情
-                                       // 其中 info.response 是文件上传成功后，服务端返回的json，形式如
-                                       // {
-                                       //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
-                                       //    "key": "gogopher.jpg"
-                                       //  }
-                                       // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
-
-                                       // var domain = up.getOption('domain');
-                                       // var res = parseJSON(info.response);
-                                       // var sourceLink = domain + res.key; 获取上传成功后的文件的Url
-                                },
-                                'Error': function(up, err, errTip) {
-                                       //上传出错时,处理相关的事情
-                                     
-                                },
-                                'UploadComplete': function() {
-                                       //队列文件处理完毕后,处理相关的事情
-                                },
-                                'Key': function(up, file) {
-                                    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-                                    // 该配置必须要在 unique_names: false , save_key: false 时才生效
-
-                                    var key = "";
-                                    // do something with key here
-                                    return key
-                                }
-                            }
-                        });
-
-                        // domain 为七牛空间（bucket)对应的域名，选择某个空间后，可通过"空间设置->基本设置->域名设置"查看获取
-
-                        // uploader 为一个plupload对象，继承了所有plupload的方法，参考http://plupload.com/docs
-	</script>
+  <script src='../node_modules/jquery/dist/jquery.min.js'></script>
+  <script src='../node_modules/qiniu-js/dist/qiniu.min.js'></script>
+	<script src='../node_modules/leancloud-storage/dist/av-min.js'></script>
+  <script src='../js/init.js'></script>
+  <script src='../js/event-hub.js'></script>
+  <script src='../js/upload.js'></script>
+  <script src='../js/song.js'></script>
+  <script src='../js/new-Song.js'></script>
+  <script src='../js/song-list.js'></script>
 </body>
 </html>
