@@ -8,9 +8,10 @@
       render(data){
         let $el = $(this.el)
          $el.html(this.template)
-         let {songs} = data
+         let {songs,selectedId} = data
          let liList = songs.map((song)=>{
-              let $li = $('<li></li>').text(song.name).attr('data-id',song.id)
+        let $li = $('<li></li>').text(song.name).attr('data-id',song.id)
+              if(song.id === selectedId){$li.addClass('active')}
              return $li
          })
          $el.find('ul').empty()
@@ -31,7 +32,8 @@
   }
          let model = {
           data:{
-            songs:[]
+            songs:[],
+            selectedId: undefined
           },
           find(){
               var userQuery = new AV.Query('Song');
@@ -61,8 +63,10 @@
           },
           bindEvents(){
               $(this.view.el).on('click','li',(e)=>{
-                this.view.activeItem(e.currentTarget)
+               
                 let songId = e.currentTarget.getAttribute("data-id")
+                this.model.data.selectedId = songId
+                 this.view.render(this.model.data)
                  let data
                  let songs =this.model.data.songs
                  for(let i = 0; i<songs.length; i++){
@@ -76,16 +80,21 @@
               })
           },
           bindEventhub(){
-             window.eventHub.on('upload',(data)=>{
-              console.log('songList模块 得到了data')
-             this.view.clearActive()
-            })
               window.eventHub.on('create',(songData)=>{
                 this.model.data.songs.push(songData)
                  this.view.render(this.model.data)
               })
              window.eventHub.on('new',()=>{
                 this.view.clearActive()
+             })  
+             window.eventHub.on('update',(song)=>{
+                let songs = this.model.data.songs
+                for(let i = 0;i<songs.length;i++){
+                  if(songs[i].id===song.id){
+                    Object.assign(songs[i],song)
+                  }
+                }
+                this.view.render(this.model.data)
              })  
           }
          }

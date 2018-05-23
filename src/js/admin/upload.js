@@ -40,6 +40,7 @@
                },
                'BeforeUpload': function(up, file) {
                      console.log('文件上传ing!')
+                      window.eventHub.emit('BeforeUpload')
                },
                'UploadProgress': function(up, file) {
                       //upload.textContent = '文件上传ing'
@@ -52,13 +53,13 @@
                       //    "key": "gogopher.jpg"
                       //  }
                       // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
-
+                       window.eventHub.emit('AfterUpload')
                        var domain = up.getOption('domain');
                        //requestEntity.addPart("key", new StringBody(key,Charset.forName("utf-8")));
                        var response = JSON.parse(info.response);
                        var sourceLink = domain + '//' + encodeURIComponent(response.key); //获取上传成功后的文件的Url
                        //console.log(response);
-                       window.eventHub.emit('upload',{
+                       window.eventHub.emit('new',{
                         url:sourceLink,
                         name:response.key
                       })

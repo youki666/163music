@@ -65,7 +65,19 @@
              },  (error)=> {
                console.error(error);
              });
-          }
+          },
+          update(data){
+             var song = AV.Object.createWithoutData('Song', this.data.id);
+               // 修改属性
+               song.set('name', this.data.name)
+               song.set('singer', this.data.singer)
+               song.set('url', this.data.url)
+               // 保存到云端
+               return song.save().then((response)=>{
+                Object.assign(this.data,data)
+                return response
+               })
+            }
          }
          let controller= {
           init(view,model){
@@ -74,23 +86,23 @@
             this.model = model
             this.view.render(this.model.data)
             this.bindEvents()
-             window.eventHub.on('upload',(data)=>{
-              console.log('songForm模块 得到了data')
-              this.model.data = data
-            this.view.render(data)
-            })
              window.eventHub.on('select',(data)=>{
                this.model.data = data
               this.view.render(this.model.data)
              })
                window.eventHub.on('new',(data)=>{
-               this.model.data = { }
+                if(this.model.data.id){
+                  this.model.data = {        
+                  name: '',singer: '',url: '',id: ''
+                }
+                }else{
+                  Object.assign(this.model.data,data)
+                }
+               
               this.view.render(this.model.data)
              })
           },
-          bindEvents(){
-           this.view.$el.on('submit', 'form', (e)=>{
-                e.preventDefault()
+          save(){
                 let need = 'name singer url id'.split(' ')
                 let data = {}
                 need.map((str)=>{
@@ -101,10 +113,32 @@
                  .then(()=>{
                    console.log(this.model.data)
                    this.view.reset()
-                   
                    window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))
-                   
                  }) 
+          },
+          update(){
+                let need = 'name singer url'.split(' ')
+                let data = {}
+                need.map((str)=>{
+                  data[str] = this.view.$el.find(`[name="${str}"]`).val()
+                })
+                  this.model.update(data)
+                  .then(()=>{
+                    console.log('更新success')
+                    window.eventHub.emit('update', JSON.parse(JSON.stringify(this.model.data)))
+                  })
+          },
+          bindEvents(){
+           this.view.$el.on('submit', 'form', (e)=>{
+                e.preventDefault()
+                if(this.model.data.id){
+                  //console.log('id存在')
+                  this.update()
+                }else{
+                  console.log('id不存在')
+                  this.save()
+                }
+
            })
           }
          }
