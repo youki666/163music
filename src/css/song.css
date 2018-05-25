@@ -1,6 +1,10 @@
 *{margin:0; padding: 0; box-sizing: border-box;}
 *::before, *::after{box-sizing: border-box; }
-
+.clearfix::after{
+	content: '';
+	clear: both;
+	display: block;
+}
 @keyframes circle{
   0% {transform: rotate(0deg); } 
   100% {transform: rotate(360deg); } 
@@ -9,6 +13,27 @@
 .page{display: flex; flex-direction: column; height: 100vh;
 	background: transparent url(http://p3.music.126.net/z4p2xss2a50qNHe6TLFdoA==/2425522650910827.jpg) no-repeat center;
 	background-size: cover;
+}
+.svg-logo {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	vertical-align: center;
+}
+.svg-logo .svg-left{
+    width: 230px;
+    height: 44px;
+    
+}
+.svg-logo .svg-left {
+	width: 110px;
+    height: 44px;
+}
+.icon {
+   width: 1em; height: 1em;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
 }
 
 .disc-container{position: relative; }
@@ -41,6 +66,7 @@
 	text-align: center;
 	line-height: 2;
 	margin-top: 20px;
+	position: relative;
 }
 .song-description h1{
 	color: white;
@@ -57,8 +83,83 @@
 	height: 72px;
 	overflow: hidden;
 }
+.song-description .lyric .lines p{
+    color: #ffff;
+}
 .song-description p.active{
 	color: white;
+}
+
+@media (min-width: 601px){
+ .song-description{
+  display: none; 
+}
+.m-giude {
+    position: absolute;
+    left: 50vw;
+    
+}
+.m-giude .arr {
+    display: block;
+    width: 17px;
+    height: 12px;
+    background-repeat: no-repeat;
+    background-size: 17px auto;
+    background-image: url(../ant.png);
+    background-color: red
+    background-position: 0 0;
+}
+.m-giude .arr.ani {
+    -webkit-animation: shining 1.2s steps(1) infinite;
+    animation: shining 1.2s steps(1) infinite;
+}
+}
+@media (max-width: 600px) {
+  .song-description .icon-wrapper1{
+	position: absolute;
+	top: 18vh;
+	left: 20vw;
+	z-index: 1;
+	display: flex; 
+	background: rgba(0,0,0,0.5);
+}
+ .icon-wrapper1 .icon {
+ 	 width: 20vw;
+ 	 fill: white;
+ 	 height: 60px;
+ }
+  .icon-wrapper1 .icon svg{
+  	color: #fff;
+  }
+
+ .icon-wrapper1 .icon-pause{
+	position: absolute;
+    top: 0;
+	left: 20vw;
+}
+ .icon-wrapper1 .icon-pause{display: none; }
+.icon-wrapper1.playing .icon-pause{display: block; }
+.icon-wrapper1.playing .icon-play{display: none; }
+.m-giude {
+    position: absolute;
+    top: 200px;
+    left: 48vw;
+    
+}
+.m-giude .arr {
+    display: block;
+    width: 17px;
+    height: 12px;
+    background-repeat: no-repeat;
+    background-size: 17px auto;
+    background-image: url(../img/ant.png);
+    background-color: red
+    background-position: 0 0;
+}
+.m-giude .arr.ani {
+    -webkit-animation: shining 1.2s steps(1) infinite;
+    animation: shining 1.2s steps(1) infinite;
+}
 }
 
 .page > .links{

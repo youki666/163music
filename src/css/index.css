@@ -71,6 +71,7 @@ section.topbar > a::after{
 .tabs-nav{
   display: flex;
   border-bottom: 1px solid #CCCCCC;
+  z-index: 1;
 }
 .tabs-nav>li{
   width: 33.333333%;
@@ -136,17 +137,21 @@ section.playlists > ol.songs > li p{
   overflow: hidden;
   line-height: 18px;
   height: 36px;
-  padding: 0 6px;
+  padding: 6px;
 }
 section.playlists > ol.songs > li img{
   width: 100%;
 }
+
 section.songs{}
 section.songs > .list {
   margin-top: 18px;
 }
 section.songs > .list > li > h3{
-  font-size: 17px;
+  font-size: 16px;
+  overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
 }
 section.songs > .list > li > p{
   font-size: 12px;
@@ -203,8 +208,185 @@ section.art .copyright{
 }
 
 
+#page-2  {
+  margin-top: 18px;
+}
+#page-2  li > h3{
+  font-size: 17px;
+}
+#page-2  li > p{
+  font-size: 12px;
+  color: #888;
+}
+#page-2  li{
+  position: relative;
+  margin-left: 10px;
+  padding-bottom: 6px;
+  padding-top: 5px;
+  border-bottom: 1px solid #E2E2E3;
+}
+#page-2 li .playButton{
+  position: absolute;
+  right:8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#page-2 li .icon-play{
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  fill: #AAA;
+}
+#page-2 li .icon-sq{
+  fill: #FE672E;
+}
+
+.hotop{
+  background-image: url(../img/index_icon.png);
+}
+.hotop{
+    position: relative;
+    padding-top: 38.9%;
+    overflow: hidden;
+    background: url(//s3.music.126.net/m/s/img/hot_music_bg_2x.jpg?f01a252…) no-repeat;
+    background-size: contain;
+}
+ .hotopct {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    z-index: 2;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+.m-hmhot .hotop {
+    position: relative;
+    padding-top: 38.9%;
+   
+    background: url(//s3.music.126.net/m/s/img/hot_music_bg_2x.jpg?f01a252…) no-repeat;
+    background-size: contain;
+}
 
 
+ .hotop:after, .hotopct {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+     
+}
+.hotopct .hoticon {
+    width: 142px;
+    height: 67px;
+    background-position: -24px -30px;
+}
+.u-hmsprt {
+    background-image: url(../img/index_icon.png);
+}
 
+.u-hmsprt {
+    background: url(//s3.music.126.net/m/s/img/index_icon_2x.png?5207a28…) no-repeat;
+    background-size: 166px 97px;
+}
+.hottime{
+      margin-top: 10px;
+    color: hsla(0,0%,100%,.8);
+    font-size: 12px;
+    -webkit-transform: scale(.91);
+    transform: scale(.91);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+}
+.m-hmsrch {
+    background: #fbfcfd;
+}
+.m-input {
+    padding: 15px 10px;
+}
+.input:focus label{
+  display: none;
+}
+
+.f-bd {
+    position: relative;
+}
+.m-input .inputcover {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    background: #ebecec;
+    border-radius: 30px;
+}
+
+.inputcover, .m-input-login {
+    width: 100%;
+    box-sizing: border-box;
+}
+.inputcover {
+    padding: 0 16px;
+}
+.m-input .input {
+    width: 100%;
+    height: 30px;
+    line-height: 18px;
+    background: transparent;
+    font-size: 14px;
+    color: #333;
+}
+input:focus{
+  outline: none;
+}
+
+input, select, textarea {
+    -webkit-appearance: none;
+    border-radius: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+
+label, summary {
+    cursor: default;
+}
+.m-input .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    line-height: 28px;
+    text-align: center;
+}
+.m-hotlist {
+    padding: 15px 10px 0;
+}
+.m-hotlist .title {
+    font-size: 12px;
+    line-height: 12px;
+    color: #666;
+}
+.m-hotlist .list {
+    margin: 10px 0 7px;
+}
+.m-hotlist .item {
+    display: inline-block;
+    height: 32px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    line-height: 32px;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
 
 
