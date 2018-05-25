@@ -86,7 +86,7 @@
 .song-description .lyric .lines p{
     color: #ffff;
 }
-.song-description p.active{
+.song-description .lyric .lines p.active{
 	color: white;
 }
 
